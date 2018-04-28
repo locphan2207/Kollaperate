@@ -21,3 +21,10 @@ var server = app.listen(4000, () => {
 - Let heroku know the node and npm version in package.json
 - Set up start command to run server in package.json
 - Use .gitignore node_modules
+
+### Nodemon:
+- npm install -g nodemon
+- type `nodemon` in terminal to run server with continuous watching
+
+### Mongoose.JS:
+- Package that helps represent MongoDB record with Model Class
