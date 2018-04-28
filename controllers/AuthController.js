@@ -14,10 +14,11 @@ router.use(bodyParser.urlencoded({extended: false}));
 router.use(bodyParser.json());
 
 // -----
-// RESTful Routers:
-// POST /api/users -> create new user
-// POST /api/session -> create a login session
-// DELETE /api/session -> delete a login session
+// Auth Routers:
+// POST /api/auth/signup -> create new user
+// POST /api/auth/current_user -> get current user info
+// DELETE /api/auth/login -> create a login session
+// DELETE /api/auth/logout -> delete a login session
 // ----
 
 router.post('/signup', (req, res) => {
@@ -46,7 +47,22 @@ router.post('/signup', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
+  User.findOne({username: req.body.username}, (err, user) => {
+    if (err) return res.status(500).send('Login error');
+    if (!user) return res.status(404).send('Email is not found');
+    console.log(user);
+    // compare the input password with the hash stored in db of the found user:
+    const isValidPassword = bcrypt.compareSync(req.body.password, user.passwordDigest);
 
-})
+    if (!isValidPassword) return res.status(401).send({auth: false, token: null});
+
+    // When password is correct:
+    const token = jwt.sign({id: user._id}, keys.secretKey, {
+      expiresIn: 86400
+    });
+
+    res.status(200).send({auth: true, token: true});
+  });
+});
 
 module.exports = router;
