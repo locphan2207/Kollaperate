@@ -4,14 +4,12 @@
 - `npm install --save express`
 - `npm install --save-dev nodemon` (for auto reload server)
 - add new script `"start": "nodemon index"`
-- create new index.js file:
+- create new index.js file
 
 ```javascript
-var express = require('express');
-
-var app = express();
-
-var server = app.listen(4000, () => {
+const express = require('express');
+const app = express();
+const server = app.listen(4000, () => {
   console.log("Server is running on 4000");
 });
 ```
@@ -28,3 +26,9 @@ var server = app.listen(4000, () => {
 
 ### Mongoose.JS:
 - Package that helps represent MongoDB record with Model Class
+- Create a user to access the database.
+- Copy the URI string into `mongoose.connect()`
+```javascript
+const mongoose = require('mongoose');
+mongoose.connect(mlabURI);
+```
