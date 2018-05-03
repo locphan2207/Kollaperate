@@ -2,7 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+
 const keys = require('../config/keys');
+const verifyToken = require('./middlewares/verifyToken');
 
 const User = require('../models/User');
 
@@ -16,9 +18,9 @@ router.use(bodyParser.json());
 // -----
 // Auth Routers:
 // POST /api/auth/signup -> create new user
-// POST /api/auth/current_user -> get current user info
-// DELETE /api/auth/login -> create a login session
-// DELETE /api/auth/logout -> delete a login session
+// GET /api/auth/current_user -> get current user info
+// POST /api/auth/login -> create a login session
+// GET /api/auth/logout -> delete a login session
 // ----
 
 router.post('/signup', (req, res) => {
@@ -42,7 +44,7 @@ router.post('/signup', (req, res) => {
       expiresIn: 86400 // 24 hour
     });
     // Then send response back:
-    res.status(200).send({auth: true, token: true});
+    res.status(200).send({auth: true, token: token});
   });
 });
 
@@ -61,8 +63,22 @@ router.post('/login', (req, res) => {
       expiresIn: 86400
     });
 
-    res.status(200).send({auth: true, token: true});
+    res.status(200).send({auth: true, token: token});
   });
+});
+
+router.get('/current_user', verifyToken, (req, res) => {
+  User.findById(req.userId, {password: 0}, (err, user) => {
+    if (err) return res.status(500).send('Error in finding user info');
+    if (!user) return res.status(404).send('Cannot find user info.');
+    res.status(200).send(user);
+  });
+});
+
+// The fact is with JWT, we can logout by clearing the JWT token in the client side
+// This function is just to demonstrate incase:
+router.get('/logout', (req, res) => {
+  res.status(200).send({auth: false, token: null});
 });
 
 module.exports = router;
