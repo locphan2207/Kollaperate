@@ -37,7 +37,7 @@ mongoose.connect(mlabURI);
 - Middleware functions are functions that have access to the request object (req), the response object (res), and the next middleware function in the application’s request-response cycle. The next middleware function is commonly denoted by a variable named next.
 - If the current middleware function does not end the request-response cycle, it must call next() to pass control to the next middleware function. Otherwise, the request will be left hanging.
 
-###Json Web Token (JWT)
+### JSON Web Token (JWT)
 - When a user login, we create a new JWT and send it to the client side.
 ```javascript
 const token = jwt.sign({id: user._id}, keys.secretKey, {
