@@ -76,3 +76,7 @@ router.get('/current_user', verifyToken, (req, res) => {
   });
 });
 ```
+### Running both backend and frontend on same PORT:
+- There are many tutorials that show us the way to do MERN is to set up 2 different servers for backend and frontend. But, it leads to a lot of weird setup and the need of using `create-react-app`.
+- To set up both on same Port, we have clearly understand and differentiate the route of frontend and backend API. Because, eventually both route types will be the extension of the same domain. To do that, we put all back end API routes in the namespace of API. They are will all be like so `/api/...`, and the frontend routes will be the rest.
+- With that being said, we set up our express app to check if the route we type is backend first. If it is, then we handle it like a HTTP request cycle. If not, we have to **lead the app to display the static html file/folder**, which contains all the html, css and javascript(bundled by webpack).
