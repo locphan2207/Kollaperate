@@ -15,10 +15,10 @@ export default class Nav extends React.Component {
       return (
         <ul id="nav-mobile" className="right hide-on-med-and-down">
           <li>
-            <button data-target="modal1" class="btn modal-trigger">Sign Up</button>
+            <button data-target="modal1" className="btn modal-trigger">Sign Up</button>
           </li>
           <li>
-            <button data-target="login-modal" class="btn modal-trigger">Log In</button>
+            <button data-target="login-modal" className="btn modal-trigger">Log In</button>
           </li>
         </ul>
       );
